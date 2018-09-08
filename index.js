@@ -46,7 +46,7 @@ server.post('/get-movie-details', (req, res) => {
     });
 });
 
-let action = req.body.result.action;
+let action = req.body.queryResult.action;
 
 if (action === 'get-imdb-rating') {
 
