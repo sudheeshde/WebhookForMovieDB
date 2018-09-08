@@ -1,3 +1,24 @@
+'use strict';
+
+const express = require('express');
+const bodyParser = require('body-parser');
+const http = require('http');
+const API_KEY = require('./apiKey');
+
+const server = express();
+server.use(bodyParser.urlencoded({
+    extended: true
+}));
+
+server.use(bodyParser.json());
+
+server.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
+    next();
+});
+
 server.post('/get-imdb-rating', (req, res) => {
 
     const movieToSearch = req.body.queryResult && req.body.queryResult.parameters && req.body.queryResult.parameters.movie ? req.body.queryResult.parameters.movie : 'The Godfather';
