@@ -49,6 +49,31 @@ server.post('/get-movie-details', (req, res) => {
             });
         });
     } else if (agentAction === "getImdbRating") {
+
+        http.get(reqUrl, (responseFromAPI) => {
+            let completeResponse = '';
+            responseFromAPI.on('data', (chunk) => {
+                completeResponse += chunk;
+            });
+            responseFromAPI.on('end', () => {
+                const movie = JSON.parse(completeResponse);
+                let dataToSend = movieToSearch === 'The Godfather' ? `I don't have the required info on that. Here's some info on 'The Godfather' instead.\n` : '';
+                dataToSend += `IMDB rating of ${movie.Title} is ${movie.imdbRating}`;
+
+                return res.json({
+                    fulfillmentText: dataToSend,
+                    source: 'get-imdb-rating'
+                });
+            });
+        }, (error) => {
+            return res.json({
+                fulfillmentText: 'Something went wrong!',
+                source: 'get-imdb-rating'
+            });
+        });
+
+    } else if (agentAction === "movie-detail.movie-imdb-rating-followup") {
+        
         http.get(reqUrl, (responseFromAPI) => {
             let completeResponse = '';
             responseFromAPI.on('data', (chunk) => {
