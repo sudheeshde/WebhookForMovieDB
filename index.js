@@ -100,19 +100,19 @@ server.post('/get-movie-details', (req, res) => {
 
         //http.get(reqUrl, (responseFromAPI) => {
             let completeResponse = '';
-            responseFromAPI.on('data', (chunk) => {
-                completeResponse += chunk;
-            });
-            responseFromAPI.on('end', () => {
-                const movie = JSON.parse(completeResponse);
-                let dataToSend = movieToSearch === 'The Godfather' ? `I don't have the required info on that. Here's some info on 'The Godfather' instead.\n` : '';
-                dataToSend += ` ${movie.Title} is playing in Aroma theater`;
-
-                return res.json({
-                    fulfillmentText: dataToSend,
-                    source: 'get-theater'
-                });
-            });
+            // responseFromAPI.on('data', (chunk) => {
+            //     completeResponse += chunk;
+            // });
+            // responseFromAPI.on('end', () => {
+            //     const movie = JSON.parse(completeResponse);
+            //     let dataToSend = movieToSearch === 'The Godfather' ? `I don't have the required info on that. Here's some info on 'The Godfather' instead.\n` : '';
+            //     dataToSend += ` ${movie.Title} is playing in Aroma theater`;
+            //
+            //     return res.json({
+            //         fulfillmentText: dataToSend,
+            //         source: 'get-theater'
+            //     });
+            // });
         // }, (error) => {
         //     return res.json({
         //         fulfillmentText: 'Something went wrong!',
@@ -120,6 +120,11 @@ server.post('/get-movie-details', (req, res) => {
         //     });
         // });
 
+        let dataToSend = `${movie.Title} is playing in Aroma theater`;
+            return res.json({
+                fulfillmentText: dataToSend,
+                source: 'get-theater'
+            });
     }
 
 });
