@@ -125,6 +125,30 @@ server.post('/get-movie-details', (req, res) => {
                 fulfillmentText: dataToSend,
                 source: 'get-theater'
             });
+    } else if (agentAction === "movie-plot") {
+
+        http.get(reqUrl, (responseFromAPI) => {
+            let completeResponse = '';
+            responseFromAPI.on('data', (chunk) => {
+                completeResponse += chunk;
+            });
+            responseFromAPI.on('end', () => {
+                const movie = JSON.parse(completeResponse);
+                let dataToSend = movieToSearch === 'The Godfather' ? `I don't have the required info on that. Here's some info on 'The Godfather' instead.\n` : '';
+                dataToSend += `${movie.Plot}`;
+
+                return res.json({
+                    fulfillmentText: dataToSend,
+                    source: 'get-movie-plot'
+                });
+            });
+        }, (error) => {
+            return res.json({
+                fulfillmentText: 'Something went wrong!',
+                source: 'get-movie-plot'
+            });
+        });
+
     }
 
 });
