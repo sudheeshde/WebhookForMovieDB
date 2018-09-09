@@ -72,8 +72,8 @@ server.post('/get-movie-details', (req, res) => {
             });
         });
 
-    } else if (agentAction === "movie-detail.movie-imdb-rating-followup") {
-        
+    } else if (agentAction === "known-movie-imdb-rating") {
+
         http.get(reqUrl, (responseFromAPI) => {
             let completeResponse = '';
             responseFromAPI.on('data', (chunk) => {
